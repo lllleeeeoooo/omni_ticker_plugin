@@ -1,0 +1,1 @@
+# omni_ticker_plugin

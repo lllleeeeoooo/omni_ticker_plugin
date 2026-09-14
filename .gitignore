@@ -1,0 +1,12 @@
+.gradle/
+build/
+out/
+*.class
+*.log
+.idea/workspace.xml
+.idea/shelf/
+.DS_Store
+# Sandbox & IDE local state
+.intellijPlatform/
+.idea/
+omni-ticker/

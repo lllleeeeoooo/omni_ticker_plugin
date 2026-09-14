@@ -1,0 +1,28 @@
+<idea-plugin>
+    <id>com.omniticker</id>
+    <name>Omni Ticker</name>
+    <vendor>omni-ticker</vendor>
+    <description><![CDATA[A股实时行情：自选股、指数摘要、五档详情。数据源东方财富/腾讯行情(免费接口)。]]></description>
+
+    <idea-version since-build="252"/>
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="OmniTicker" anchor="right"
+                    factoryClass="com.omniticker.ui.QuoteToolWindowFactory"/>
+        <statusBarWidgetFactory
+                id="com.omniticker.statusBar"
+                implementation="com.omniticker.statusbar.QuoteStatusBarWidgetFactory"
+                order="last"/>
+        <applicationConfigurable id="com.omniticker.settings"
+                                 displayName="Omni Ticker"
+                                 instance="com.omniticker.settings.OmniTickerConfigurable"/>
+    </extensions>
+
+    <actions>
+        <action id="com.omniticker.refresh"
+                class="com.omniticker.ui.RefreshAction"
+                text="立即刷新 A 股行情"
+                description="立即刷新 A 股行情"/>
+    </actions>
+</idea-plugin>

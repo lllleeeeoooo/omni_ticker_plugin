@@ -72,10 +72,19 @@ class QuoteToolWindowFactory : ToolWindowFactory {
         // Keep the selected detail pane in sync when data refreshes.
         table.selectionModel.addListSelectionListener { e ->
             if (!e.valueIsAdjusting) {
-                val viewRow = table.selectedRow
+                var viewRow = table.selectedRow
+                // 列表未选中任何个股时默认展示第一行
+                if (viewRow < 0 && model.rowCount > 0) viewRow = 0
                 val q = if (viewRow >= 0) model.quoteAt(table.convertRowIndexToModel(viewRow)) else null
                 detail.showQuote(q)
             }
+        }
+
+        // 打开面板立即用当前快照填充并默认选中第一只自选股——
+        // subscribe 注册后要等下一次刷新回调才触发，不能依赖它。
+        model.setData(manager.watchlistQuotes())
+        if (model.rowCount > 0) {
+            table.selectionModel.setSelectionInterval(0, 0)
         }
 
         // ---- add-stock row: exact code, or fuzzy name/pinyin via search -----
@@ -104,7 +113,7 @@ class QuoteToolWindowFactory : ToolWindowFactory {
                     val code = quote?.code ?: return@addActionListener
                     WatchlistState.getInstance().remove(code)
                     manager.refreshNow()
-                    detail.showQuote(null)
+                    // 删除后由选择监听重新兜底到第一行（或空列表 → null）
                 }
             }
         }
@@ -156,6 +165,10 @@ class QuoteToolWindowFactory : ToolWindowFactory {
                     val viewRow = table.convertRowIndexToView(modelRow)
                     table.selectionModel.setSelectionInterval(viewRow, viewRow)
                 }
+            }
+            // 仍未选中任何行（首次打开/删除后）时默认选中第一行
+            if (table.selectedRow < 0 && model.rowCount > 0) {
+                table.selectionModel.setSelectionInterval(0, 0)
             }
             val viewRow = table.selectedRow
             if (viewRow >= 0) {

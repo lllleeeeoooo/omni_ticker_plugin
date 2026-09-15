@@ -28,7 +28,11 @@ class SinaProvider : QuoteProvider {
         return requests.mapNotNull { byCode[it.code] }
     }
 
-    override suspend fun search(keyword: String, limit: Int): List<SearchHit>? = null
+    override suspend fun search(
+        keyword: String,
+        limit: Int,
+        assetClass: com.omniticker.model.AssetClass,
+    ): List<SearchHit>? = null
 
     companion object {
         const val ID = "sina"

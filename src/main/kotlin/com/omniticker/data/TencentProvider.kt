@@ -25,7 +25,7 @@ class TencentProvider : QuoteProvider {
         return requests.mapNotNull { byCode[it.code] }
     }
 
-    override suspend fun search(keyword: String, limit: Int): List<SearchHit> {
+    override suspend fun search(keyword: String, limit: Int, assetClass: com.omniticker.model.AssetClass): List<SearchHit> {
         if (keyword.isBlank()) return emptyList()
         val q = java.net.URLEncoder.encode(keyword, Charsets.UTF_8)
         val url = "https://smartbox.gtimg.cn/s3/?v=2&t=all&c=1&q=$q"

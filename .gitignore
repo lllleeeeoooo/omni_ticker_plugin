@@ -10,3 +10,6 @@ out/
 .intellijPlatform/
 .idea/
 omni-ticker/
+
+# Local Claude Code config
+.claude/

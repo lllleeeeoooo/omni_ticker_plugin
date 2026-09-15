@@ -30,6 +30,7 @@ data class Quote(
     val limitDown: Double? = null,
     val timestamp: Long,
     val source: String,          // provider id that produced this quote
+    val assetClass: AssetClass = AssetClass.A_SHARE,  // 品类（默认 A 股，P2 起美股/虚拟币填充）
 ) {
     val isUp: Boolean get() = change > 0.0
     val isDown: Boolean get() = change < 0.0
@@ -43,4 +44,5 @@ data class SearchHit(
     val market: Market,
     val pinyin: String = "",
     val type: String = "",   // 1=股票 2=指数 ...
+    val assetClass: AssetClass = AssetClass.A_SHARE,  // 品类（默认 A 股）
 )
